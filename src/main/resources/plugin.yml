@@ -1,0 +1,6 @@
+name: SkyBlockPlugin
+version: "1.0.0"
+api: ["1.0.7"]
+main: ms.kevi.skyblock.SkyBlockPlugin
+depend:
+  - Heads
