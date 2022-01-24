@@ -59,14 +59,26 @@ public class CreativeMenu extends BasicMenu {
     private void fill() {
         this.mapping.clear();
         this.menuItems.clear();
-        final List<FunctionInvoker<Item>> functions = new ArrayList<>();
-        functions.addAll(VANILLA_ITEMS.stream().map(IGameItem::possibleInvokers).flatMap(Collection::stream).collect(Collectors.toList()));
-        functions.addAll(GAME_ITEMS.stream().map(IGameItem::possibleInvokers).flatMap(Collection::stream).collect(Collectors.toList()));
-        for(FunctionInvoker<Item> function : functions) {
-            final Item item = function.invoke();
-            this.mapping.put(item, function);
-            this.menuItems.add(item);
+        final Map<IGameItem, List<FunctionInvoker<Item>>> functions = new LinkedHashMap<>();
+        for(IGameItem item : VANILLA_ITEMS)
+            functions.computeIfAbsent(item, s -> new ArrayList<>()).addAll(item.possibleInvokers());
+        for(IGameItem item : GAME_ITEMS)
+            functions.computeIfAbsent(item, s -> new ArrayList<>()).addAll(item.possibleInvokers());
+
+        all_items:
+        for(Map.Entry<IGameItem, List<FunctionInvoker<Item>>> entry : functions.entrySet()) {
+            for(FunctionInvoker<Item> functionInvoker : entry.getValue()) {
+                try {
+                    final Item item = functionInvoker.invoke();
+                    this.mapping.put(item, functionInvoker);
+                    this.menuItems.add(item);
+                } catch(Throwable throwable) {
+                    throwable.printStackTrace();
+                    break all_items;
+                }
+            }
         }
+
         this.fillInventory(false, true);
     }
 
