@@ -28,7 +28,9 @@ import ms.kevi.skyblock.util.SkinUtil;
 
 import java.awt.image.BufferedImage;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class EntityFlyingSkullPet extends EntityHuman {
 
@@ -137,6 +139,14 @@ public abstract class EntityFlyingSkullPet extends EntityHuman {
 
         final double requiredDistance = this.owner.isOnGround() ? 2 : 2.75;
         final Vector3 ownerPos = this.owner.add(0, this.owner.getEyeHeight(), 0);
+
+        if(this.distance(ownerPos) > 16) {
+            final Random random = ThreadLocalRandom.current();
+            this.teleport(ownerPos.add(random.nextFloat() * (random.nextBoolean() ? -1 : 1), 0, random.nextFloat() * (random.nextBoolean() ? -1 : 1)));
+            this.targetGoal = null;
+            return;
+        }
+
         if(this.targetGoal != null) {
             this.yaw = ((Math.atan2(this.owner.z - this.z, this.owner.x - this.x) * 180) / Math.PI) - 90;
             this.pitch = 0;
@@ -144,19 +154,14 @@ public abstract class EntityFlyingSkullPet extends EntityHuman {
                 this.targetGoal = null;
             else {
                 final double movementSpeed = 3;
-                if(this.distance(this.targetGoal) < 16) {
-                    final double x = this.targetGoal.x - this.x;
-                    final double y = this.targetGoal.y - this.y;
-                    final double z = this.targetGoal.z - this.z;
+                final double x = this.targetGoal.x - this.x;
+                final double y = this.targetGoal.y - this.y;
+                final double z = this.targetGoal.z - this.z;
 
-                    final double diff = Math.abs(x) + Math.abs(y) + Math.abs(z);
-                    this.motionX = movementSpeed * 0.15 * (x / diff);
-                    this.motionY = movementSpeed * 0.27 * (y / diff);
-                    this.motionZ = movementSpeed * 0.15 * (z / diff);
-                } else {
-                    this.teleport(this.targetGoal);
-                    return;
-                }
+                final double diff = Math.abs(x) + Math.abs(y) + Math.abs(z);
+                this.motionX = movementSpeed * 0.15 * (x / diff);
+                this.motionY = movementSpeed * 0.27 * (y / diff);
+                this.motionZ = movementSpeed * 0.15 * (z / diff);
 
                 this.keepMovement = true;
                 this.move(this.motionX, this.motionY, this.motionZ);
