@@ -72,6 +72,11 @@ public class SkyBlockPlugin extends PluginBase {
             return;
         }
 
+        this.saveResource("entities/textures/crystal.skin.png");
+        this.saveResource("entities/textures/minion.skin.png");
+        this.saveResource("entities/crystal.geometry.json");
+        this.saveResource("entities/minion.geometry.json");
+
         Generator.addGenerator(VoidGenerator.class, "Void", Generator.TYPE_FLAT);
 
         Entity.registerEntity("Minion", EntityMinion.class, true);
@@ -87,7 +92,7 @@ public class SkyBlockPlugin extends PluginBase {
         final GameServer gameServer = GameHolder.getGameServer();
         this.getServer().setPropertyString("motd", "§r§6SkyBlock §r§7" + gameServer.getDisplayId());
 
-        LevelUtil.init(gameServer.getType());
+        LevelUtil.init(this, gameServer.getType());
         this.getLogger().info("SkyBlock server information:");
         this.getLogger().info("UniqueId: " + gameServer.getUniqueId());
         this.getLogger().info("Display: " + gameServer.getDisplayId());

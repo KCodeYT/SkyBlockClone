@@ -24,6 +24,7 @@ import cn.nukkit.level.generator.Flat;
 import cn.nukkit.level.generator.Generator;
 import cn.nukkit.math.Vector3;
 import lombok.AllArgsConstructor;
+import ms.kevi.skyblock.SkyBlockPlugin;
 import ms.kevi.skyblock.game.server.ServerType;
 import ms.kevi.skyblock.scheduler.TaskExecutor;
 import org.apache.commons.io.FileUtils;
@@ -42,7 +43,7 @@ public class LevelUtil {
         TEMPLATE_MAP.put(ServerType.DYNAMIC, new TemplateData("Private Island", new Vector3(7.5, 100, 7.5), 10, false));
     }
 
-    public static void init(ServerType serverType) {
+    public static void init(SkyBlockPlugin plugin, ServerType serverType) {
         try {
             if(!TEMPLATE_MAP.containsKey(serverType))
                 return;
@@ -53,6 +54,11 @@ public class LevelUtil {
             Generator.addGenerator(Flat.class, "flat", Generator.TYPE_FLAT);
 
             final File worldTemplatesDir = new File("world_templates");
+            if(!worldTemplatesDir.exists()) {
+                plugin.getLogger().warning("This server is running without the SkyBlock Clone template worlds!");
+                return;
+            }
+
             final File worldsDir = new File("worlds");
 
             final File levelDir = new File(worldTemplatesDir, templateData.levelName);
@@ -64,8 +70,11 @@ public class LevelUtil {
 
             final Level level;
             final String levelName = tmpDir.getName();
-            if(!server.loadLevel(levelName) || (level = server.getLevelByName(levelName)) == null)
-                throw new RuntimeException("Could not load " + levelName + "!");
+            if(!server.loadLevel(levelName) || (level = server.getLevelByName(levelName)) == null) {
+                plugin.getLogger().warning("Could not find world by template!");
+                return;
+            }
+
             level.setAutoSave(false);
             server.setDefaultLevel(level);
 
@@ -84,7 +93,7 @@ public class LevelUtil {
                 }
             }
         } catch(IOException e) {
-            e.printStackTrace();
+            plugin.getLogger().error("Error whilst loading skyblock world!", e);
         }
     }
 
