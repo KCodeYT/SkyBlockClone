@@ -26,5 +26,6 @@ public class Registries {
     public static OrbTypeRegistry ORBS = new OrbTypeRegistry();
     public static CrystalTypeRegistry CRYSTALS = new CrystalTypeRegistry();
     public static PetTypeRegistry PETS = new PetTypeRegistry();
+    public static EffectRegistry EFFECTS = new EffectRegistry();
 
 }

@@ -30,6 +30,7 @@ import ms.kevi.skyblock.game.bank.Bank;
 import ms.kevi.skyblock.game.booster.BoosterHolder;
 import ms.kevi.skyblock.game.booster.BoosterSlot;
 import ms.kevi.skyblock.game.booster.StatsBooster;
+import ms.kevi.skyblock.game.effect.Effects;
 import ms.kevi.skyblock.game.modifier.IModifier;
 import ms.kevi.skyblock.game.pet.IPetAbility;
 import ms.kevi.skyblock.game.pet.PetData;
@@ -62,6 +63,7 @@ public class SkyBlockPlayer {
     private final Bank bank;
     private final Pets pets;
     private final AccessoryBag accessoryBag;
+    private final Effects effects;
 
     private final PlayerEventManager eventManager;
 
@@ -75,6 +77,7 @@ public class SkyBlockPlayer {
         this.bank = new Bank();
         this.pets = new Pets();
         this.accessoryBag = new AccessoryBag();
+        this.effects = new Effects();
 
         this.eventManager = new PlayerEventManager(this);
 
@@ -86,6 +89,9 @@ public class SkyBlockPlayer {
         final int currentTick = this.player.getServer().getTick();
         if(currentTick % 3 == 0)
             ScoreboardAPI.update(this.player);
+
+        if(currentTick % 20 == 0)
+            this.effects.tick();
 
         this.updateAttributes();
         if(currentTick % 3 == 0) {
@@ -119,8 +125,8 @@ public class SkyBlockPlayer {
         this.boosterHolder.addBooster(BoosterSlot.DEFAULT, StatsBooster.defaultOf(this));
         for(GameStats stats : GameStats.values())
             this.gameAttributes.get(stats).setForcedMaxValue(stats.getMaxValue());
+
         this.updateAbilities();
-        this.eventManager.run(new UpdateGameAttributesEvent(this));
 
         final StatsBooster currentBooster = StatsBooster.combine(this.boosterHolder.getBoosterSnapshot().values());
         for(GameStats gameStats : currentBooster.getKeySet()) {
@@ -149,6 +155,8 @@ public class SkyBlockPlayer {
             }
         }
 
+        this.eventManager.run(new UpdateGameAttributesEvent(this));
+
         for(GameStats gameStats : GameStats.values()) {
             final Attribute attribute = this.gameAttributes.get(gameStats);
             if(!gameStats.isIStatic() && holderMap.containsKey(gameStats) && attribute.getValue() != attribute.getMaxValue())
@@ -168,6 +176,8 @@ public class SkyBlockPlayer {
                 this.boosterHolder.addBooster(BoosterSlot.PET, petAbility.getStatsBooster(activePetData));
             this.boosterHolder.addBooster(BoosterSlot.PET, activePetData.getType().getStatsBooster(activePetData));
         }
+
+        this.boosterHolder.addBooster(BoosterSlot.EFFECTS, this.effects.apply());
 
         final List<Item> accessories = AccessoryBag.filterHighest(inventory.getContents().values());
         accessories.addAll(this.accessoryBag.filterHighest());

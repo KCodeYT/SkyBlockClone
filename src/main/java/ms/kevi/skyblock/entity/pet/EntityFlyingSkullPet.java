@@ -16,7 +16,9 @@
 
 package ms.kevi.skyblock.entity.pet;
 
+import cn.nukkit.AdventureSettings;
 import cn.nukkit.Player;
+import cn.nukkit.block.BlockLiquid;
 import cn.nukkit.entity.EntityHuman;
 import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.level.format.FullChunk;
@@ -28,9 +30,7 @@ import ms.kevi.skyblock.util.SkinUtil;
 
 import java.awt.image.BufferedImage;
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class EntityFlyingSkullPet extends EntityHuman {
 
@@ -110,9 +110,29 @@ public abstract class EntityFlyingSkullPet extends EntityHuman {
 
     private void updatePet() {
         this.handleParticles(this);
-        if(this.lastPoint == null || this.lastPoint.distance(this.owner) > 3)
-            this.lastPoint = this.owner.add(0, 0, 0);
-        if(this.targetGoal == null) {
+
+        final boolean ownerFlyState = this.owner.getAdventureSettings().get(AdventureSettings.Type.FLYING);
+
+        final double requiredDistance = ownerFlyState ? 2 : 2.75;
+        final Vector3 ownerPos;
+        if(ownerFlyState || this.owner.getLevelBlock() instanceof BlockLiquid) {
+            ownerPos = this.owner.add(0, this.owner.getEyeHeight(), 0);
+        } else {
+            for(int y = this.owner.getFloorY(); ; y--) {
+                if(y == this.owner.getFloorY() - 5) {
+                    ownerPos = this.owner.add(0, this.owner.getEyeHeight(), 0);
+                    break;
+                }
+
+                if(this.owner.getLevel().getBlock(this.owner.getFloorX(), y, this.owner.getFloorZ()).isSolid()) {
+                    ownerPos = this.owner.add(0, 0, 0);
+                    ownerPos.y = y + 1 + this.owner.getEyeHeight();
+                    break;
+                }
+            }
+        }
+
+        if(this.distance(ownerPos) <= requiredDistance) {
             if(this.waitingTicks >= 10) {
                 if(this.flyUp) {
                     this.y += FLYING_HIGH;
@@ -131,61 +151,30 @@ public abstract class EntityFlyingSkullPet extends EntityHuman {
                 }
             } else
                 this.waitingTicks++;
-        } else {
-            this.flyTicks = FLYING_TICKS / 2;
-            this.waitingTicks = 0;
-            this.flyUp = false;
-        }
 
-        final double requiredDistance = this.owner.isOnGround() ? 2 : 2.75;
-        final Vector3 ownerPos = this.owner.add(0, this.owner.getEyeHeight(), 0);
-
-        if(this.distance(ownerPos) > 16) {
-            final Random random = ThreadLocalRandom.current();
-            this.teleport(ownerPos.add(random.nextFloat() * (random.nextBoolean() ? -1 : 1), 0, random.nextFloat() * (random.nextBoolean() ? -1 : 1)));
-            this.targetGoal = null;
             return;
         }
 
-        if(this.targetGoal != null) {
-            this.yaw = ((Math.atan2(this.owner.z - this.z, this.owner.x - this.x) * 180) / Math.PI) - 90;
-            this.pitch = 0;
-            if(this.distance(ownerPos) < requiredDistance)
-                this.targetGoal = null;
-            else {
-                final double movementSpeed = 3;
-                final double x = this.targetGoal.x - this.x;
-                final double y = this.targetGoal.y - this.y;
-                final double z = this.targetGoal.z - this.z;
+        this.flyTicks = FLYING_TICKS / 2;
+        this.waitingTicks = 0;
+        this.flyUp = false;
 
-                final double diff = Math.abs(x) + Math.abs(y) + Math.abs(z);
-                this.motionX = movementSpeed * 0.15 * (x / diff);
-                this.motionY = movementSpeed * 0.27 * (y / diff);
-                this.motionZ = movementSpeed * 0.15 * (z / diff);
+        this.yaw = ((Math.atan2(this.owner.z - this.z, this.owner.x - this.x) * 180) / Math.PI) - 90;
+        this.headYaw = this.yaw;
+        this.pitch = 0;
 
-                this.keepMovement = true;
-                this.move(this.motionX, this.motionY, this.motionZ);
-            }
-        }
+        final double movementSpeed = 0.333 * Math.pow(Math.abs(this.distance(ownerPos) - (requiredDistance / 2.333)), 1.89);
 
-        if(this.distance(ownerPos) >= requiredDistance || this.lastValid == null) {
-            double x = ownerPos.x;
-            double y = ownerPos.y;
-            double z = ownerPos.z;
-            if(this.lastValid != null) {
-                if(Math.abs(y - this.lastValid.y) > 0) {
-                    x = Math.abs(x - this.lastValid.x) > 1.5 ? x : this.lastValid.x;
-                    if(Math.abs(y - this.lastValid.y) > (FLYING_HIGH * this.flyTicks))
-                        y += (FLYING_HIGH * this.flyTicks) * (y > this.lastValid.y ? 1 : -1);
-                    z = Math.abs(z - this.lastValid.z) > 1.5 ? z : this.lastValid.z;
-                }
-            }
+        final double x = ownerPos.x - this.x;
+        final double y = ownerPos.y - this.y;
+        final double z = ownerPos.z - this.z;
 
-            this.lastValid = new Vector3(x, y, z);
-        }
+        final double diff = Math.abs(x) + Math.abs(y) + Math.abs(z);
+        final double motionX = movementSpeed * 0.15 * (x / diff);
+        final double motionY = movementSpeed * 0.27 * (y / diff);
+        final double motionZ = movementSpeed * 0.15 * (z / diff);
 
-        if(this.distance(ownerPos) >= requiredDistance)
-            this.targetGoal = new Vector3(this.lastValid.x, this.lastValid.y, this.lastValid.z);
+        this.move(motionX, motionY, motionZ);
     }
 
     protected abstract void handleParticles(Vector3 lastVector);

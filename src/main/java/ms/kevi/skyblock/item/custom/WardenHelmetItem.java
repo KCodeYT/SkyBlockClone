@@ -44,7 +44,7 @@ public class WardenHelmetItem extends AbstractGameItem {
             final SkyBlockPlayer player = event.getPlayer();
             final Attribute speedAttribute = player.getGameAttributes().get(GameStats.SPEED);
             final Attribute damageAttribute = player.getGameAttributes().get(GameStats.DAMAGE);
-            final int speedVal = speedAttribute.getValue();
+            final int speedVal = speedAttribute.getMaxValue();
             speedAttribute.setForcedMaxValue(speedVal / 2);
             for(int s = 25; speedVal - s > 0; s += 25)
                 damageAttribute.setValue(damageAttribute.getValue() + 20);
@@ -57,7 +57,7 @@ public class WardenHelmetItem extends AbstractGameItem {
 
         @Override
         public String getDescription() {
-            return "§7Halves your speed but grants §c+10$ §7base weapon damage for every §a25 §7speed";
+            return "§7Halves your speed but grants §c+20% §7base weapon damage for every §a25 §7speed";
         }
 
         @Override

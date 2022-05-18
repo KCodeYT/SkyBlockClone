@@ -28,6 +28,7 @@ public enum BoosterSlot {
     BOOTS,
     HAND,
 
+    EFFECTS,
     ACCESSORIES,
     POWER_ORB,
     PET

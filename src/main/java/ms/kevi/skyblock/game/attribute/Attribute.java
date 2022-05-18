@@ -17,7 +17,6 @@
 package ms.kevi.skyblock.game.attribute;
 
 import lombok.Getter;
-import lombok.Setter;
 import ms.kevi.skyblock.game.stats.GameStats;
 
 @Getter
@@ -25,7 +24,6 @@ public class Attribute {
 
     private final GameStats gameStats;
     private int lastMaxValue;
-    @Setter
     private int forcedMaxValue;
     private int maxValue;
     private int value;
@@ -41,6 +39,12 @@ public class Attribute {
         this.maxValue = 0;
         if(!onlyMax)
             this.value = this.gameStats.getBaseValue();
+    }
+
+    public void setForcedMaxValue(int forcedMaxValue) {
+        this.forcedMaxValue = forcedMaxValue;
+        if(this.value > this.forcedMaxValue)
+            this.setValue(this.forcedMaxValue, true);
     }
 
     public void setMaxValue(int maxValue) {

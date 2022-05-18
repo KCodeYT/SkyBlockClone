@@ -39,9 +39,9 @@ import ms.kevi.skyblock.util.SkinUtil;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -113,7 +113,7 @@ public class ShowtimeAbility implements IAbility {
     private EntityHuman createHead(FullChunk fullChunk, Vector3 spawn, byte[] skinData) {
         return new EntityHuman(fullChunk, Entity.getDefaultNBT(spawn).putCompound("Skin", new CompoundTag().
                 putByteArray("Data", skinData).
-                putString("ModelId", Base64.getEncoder().encodeToString(skinData)).
+                putString("ModelId", UUID.randomUUID().toString()).
                 putString("GeometryName", SkinUtil.SKULL_GEOMETRY_NAME).
                 putByteArray("GeometryData", SkinUtil.SKULL_GEOMETRY.getBytes())));
     }

@@ -118,6 +118,7 @@ public class SkyBlockPlugin extends PluginBase {
         CommandUtil.register(new GiveItemToCommand());
         CommandUtil.register(new EnchantCommand());
         CommandUtil.register(new ViewRecipeCommand());
+        CommandUtil.register(new EffectCommand());
         TaskExecutor.repeating(() -> Timings.addEntityCount(this.getServer().getDefaultLevel().getEntities().length), 10);
         TaskExecutor.repeating(() -> this.getServer().getLevels().values().forEach(level -> level.setTime(GameCalender.getCurrentLevelTime(level))), 166);
 
