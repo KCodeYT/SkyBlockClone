@@ -25,8 +25,8 @@ import lombok.RequiredArgsConstructor;
 import ms.kevi.skyblock.entity.orb.EntityOrb;
 import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.game.orb.IOrbType;
-import ms.kevi.skyblock.item.ItemHandler;
 import ms.kevi.skyblock.item.ItemHelper;
+import ms.kevi.skyblock.item.handler.ItemInteractHandler;
 import ms.kevi.skyblock.item.registry.AbstractGameItem;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
-public abstract class AbstractPowerOrbItem extends AbstractGameItem implements ItemHandler {
+public class PowerOrbItem extends AbstractGameItem implements ItemInteractHandler {
 
     private final IOrbType orbType;
 
@@ -63,6 +63,21 @@ public abstract class AbstractPowerOrbItem extends AbstractGameItem implements I
     @Override
     public String getDisplayName() {
         return this.orbType.getName() + " Power Orb";
+    }
+
+    @Override
+    public GameRarity getRarity() {
+        return this.orbType.getRarity();
+    }
+
+    @Override
+    public int getId() {
+        return this.orbType.getItemId();
+    }
+
+    @Override
+    public int getDamage() {
+        return this.orbType.getItemDamage();
     }
 
     @Override

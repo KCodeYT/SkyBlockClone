@@ -17,21 +17,14 @@
 package ms.kevi.skyblock.level.block;
 
 import cn.nukkit.Player;
-import cn.nukkit.block.Block;
 import cn.nukkit.item.Item;
-import cn.nukkit.math.BlockFace;
-import ms.kevi.skyblock.menu.EnchantingTableMenu;
+import ms.kevi.skyblock.menu.reforge.AdvancedReforgeMenu;
 
-public class BlockEnchantingTable extends cn.nukkit.block.BlockEnchantingTable {
-
-    @Override
-    public boolean place(Item item, Block block, Block target, BlockFace face, double fx, double fy, double fz, Player player) {
-        return this.getLevel().setBlock(block, this, true, true);
-    }
+public class BlockAnvilOverride extends cn.nukkit.block.BlockAnvil {
 
     @Override
     public boolean onActivate(Item item, Player player) {
-        new EnchantingTableMenu(player);
+        new AdvancedReforgeMenu(player);
         return true;
     }
 

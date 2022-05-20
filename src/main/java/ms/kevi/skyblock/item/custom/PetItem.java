@@ -29,7 +29,7 @@ import ms.kevi.skyblock.game.pet.PetData;
 import ms.kevi.skyblock.game.pet.PetLevelData;
 import ms.kevi.skyblock.game.stats.GameStats;
 import ms.kevi.skyblock.item.ItemBuilder;
-import ms.kevi.skyblock.item.ItemHandler;
+import ms.kevi.skyblock.item.handler.ItemInteractHandler;
 import ms.kevi.skyblock.item.ItemHelper;
 import ms.kevi.skyblock.item.registry.AbstractGameItem;
 import ms.kevi.skyblock.registry.Registries;
@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class PetItem extends AbstractGameItem implements ItemHandler {
+public class PetItem extends AbstractGameItem implements ItemInteractHandler {
 
     @Override
     public Item createItem(Object... args) {

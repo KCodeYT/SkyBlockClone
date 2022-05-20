@@ -25,11 +25,11 @@ import cn.nukkit.level.Level;
 import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.game.booster.StatsBooster;
 import ms.kevi.skyblock.game.stats.GameStats;
-import ms.kevi.skyblock.item.ItemHandler;
+import ms.kevi.skyblock.item.handler.ItemInteractHandler;
 import ms.kevi.skyblock.item.ItemType;
 import ms.kevi.skyblock.item.registry.AbstractGameItem;
 
-public class DebugItem extends AbstractGameItem implements ItemHandler {
+public class DebugItem extends AbstractGameItem implements ItemInteractHandler {
 
     @Override
     public String getDisplayName() {

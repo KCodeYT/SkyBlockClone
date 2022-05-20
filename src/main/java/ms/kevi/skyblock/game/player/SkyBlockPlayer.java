@@ -90,8 +90,7 @@ public class SkyBlockPlayer {
         if(currentTick % 3 == 0)
             ScoreboardAPI.update(this.player);
 
-        if(currentTick % 20 == 0)
-            this.effects.tick();
+        this.effects.tick();
 
         this.updateAttributes();
         if(currentTick % 3 == 0) {

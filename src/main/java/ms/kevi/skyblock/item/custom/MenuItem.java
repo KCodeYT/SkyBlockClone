@@ -20,7 +20,7 @@ import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.item.ItemBuilder;
-import ms.kevi.skyblock.item.ItemHandler;
+import ms.kevi.skyblock.item.handler.ItemInteractHandler;
 import ms.kevi.skyblock.item.ItemHelper;
 import ms.kevi.skyblock.item.registry.AbstractGameItem;
 import ms.kevi.skyblock.menu.SkyBlockMenu;
@@ -28,7 +28,7 @@ import ms.kevi.skyblock.menu.SkyBlockMenu;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuItem extends AbstractGameItem implements ItemHandler {
+public class MenuItem extends AbstractGameItem implements ItemInteractHandler {
 
     @Override
     public Item createItem(Object... args) {

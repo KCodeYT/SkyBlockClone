@@ -203,4 +203,23 @@ public class Utils {
         }
     }
 
+    public static String toTimeWithTicks(int ticks) {
+        final StringBuilder builder = new StringBuilder();
+
+        final int hours = ticks / (20 * 60 * 60);
+        if(hours > 0) builder.append(hours).append(":");
+        ticks -= hours * 20 * 60 * 60;
+
+        final int minutes = ticks / (20 * 60);
+        if(minutes > 9 || hours < 1) builder.append(minutes).append(":");
+        else builder.append("0").append(minutes).append(":");
+        ticks -= minutes * 20 * 60;
+
+        final int seconds = ticks / 20;
+        if(seconds < 10) builder.append("0");
+        builder.append(seconds);
+
+        return builder.toString();
+    }
+
 }

@@ -14,32 +14,31 @@
  * limitations under the License.
  */
 
-package ms.kevi.skyblock.item.custom.orb;
+package ms.kevi.skyblock.game.effect;
 
-import cn.nukkit.item.Item;
-import cn.nukkit.utils.DyeColor;
-import ms.kevi.skyblock.game.GameRarity;
-import ms.kevi.skyblock.registry.OrbTypeRegistry;
+import ms.kevi.skyblock.game.booster.StatsBooster;
+import ms.kevi.skyblock.registry.Registrable;
+import ms.kevi.skyblock.registry.Registries;
 
-public class RadiantPowerOrbItem extends AbstractPowerOrbItem {
+public interface IEffect extends Registrable {
 
-    public RadiantPowerOrbItem() {
-        super(OrbTypeRegistry.RADIANT);
-    }
+    String getDisplayName();
+
+    String getColorCode();
+
+    int getMaxLevel();
+
+    int getDurationOf(int level, boolean extended);
+
+    int getAmplifierOf(int level, boolean enhanced);
+
+    StatsBooster getStatsBooster(int level);
+
+    String getDescription(int level);
 
     @Override
-    public GameRarity getRarity() {
-        return GameRarity.UNCOMMON;
-    }
-
-    @Override
-    public int getId() {
-        return Item.DYE;
-    }
-
-    @Override
-    public int getDamage() {
-        return DyeColor.LIME.getDyeData();
+    default String name() {
+        return Registries.EFFECTS.nameOf(this);
     }
 
 }

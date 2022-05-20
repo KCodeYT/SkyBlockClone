@@ -18,6 +18,7 @@ package ms.kevi.skyblock.game.orb;
 
 import cn.nukkit.Player;
 import cn.nukkit.level.Location;
+import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.registry.Registrable;
 import ms.kevi.skyblock.registry.Registries;
 
@@ -36,6 +37,12 @@ public interface IOrbType extends Registrable {
     int getMaxPlayers();
 
     int getPlayerRadius();
+
+    GameRarity getRarity();
+
+    int getItemId();
+
+    int getItemDamage();
 
     IOrbBuff getOrbBuff();
 

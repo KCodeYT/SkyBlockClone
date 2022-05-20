@@ -22,7 +22,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
 import ms.kevi.skyblock.game.GameHolder;
-import ms.kevi.skyblock.game.effect.Effect;
+import ms.kevi.skyblock.game.effect.IEffect;
 import ms.kevi.skyblock.game.player.SkyBlockPlayer;
 import ms.kevi.skyblock.registry.Registrable;
 import ms.kevi.skyblock.registry.Registries;
@@ -33,24 +33,25 @@ public class EffectCommand extends Command {
     public EffectCommand() {
         super("effect");
         this.setPermission("skyblock.cmd.effect");
+        final String[] effects = Registries.EFFECTS.nameSet().stream().map(String::toLowerCase).toArray(String[]::new);
         this.commandParameters.put("default", new CommandParameter[]{
-                CommandParameter.newEnum("effect", false, Registries.EFFECTS.values().stream().map(Registrable::name).toArray(String[]::new)),
+                CommandParameter.newEnum("effect", false, effects),
                 CommandParameter.newType("duration", false, CommandParamType.INT)
         });
         this.commandParameters.put("default1", new CommandParameter[]{
-                CommandParameter.newEnum("effect", false, Registries.EFFECTS.values().stream().map(Registrable::name).toArray(String[]::new)),
+                CommandParameter.newEnum("effect", false, effects),
                 CommandParameter.newType("duration", false, CommandParamType.INT),
                 CommandParameter.newType("amplifier", false, CommandParamType.INT)
         });
         this.commandParameters.put("default2", new CommandParameter[]{
                 CommandParameter.newType("target", false, CommandParamType.TARGET),
-                CommandParameter.newEnum("effect", false, Registries.EFFECTS.values().stream().map(Registrable::name).toArray(String[]::new)),
+                CommandParameter.newEnum("effect", false, effects),
                 CommandParameter.newType("duration", false, CommandParamType.INT),
                 CommandParameter.newType("amplifier", false, CommandParamType.INT)
         });
         this.commandParameters.put("default3", new CommandParameter[]{
                 CommandParameter.newType("target", false, CommandParamType.TARGET),
-                CommandParameter.newEnum("effect", false, Registries.EFFECTS.values().stream().map(Registrable::name).toArray(String[]::new)),
+                CommandParameter.newEnum("effect", false, effects),
                 CommandParameter.newType("duration", false, CommandParamType.INT),
                 CommandParameter.newType("amplifier", false, CommandParamType.INT)
         });
@@ -77,7 +78,7 @@ public class EffectCommand extends Command {
             return false;
         }
 
-        final Effect effect = Registries.EFFECTS.valueOf(args[Utils.isInteger(args[1]) ? 0 : 1]);
+        final IEffect effect = Registries.EFFECTS.valueOf(args[Utils.isInteger(args[1]) ? 0 : 1]);
         if(effect == null) {
             sender.sendMessage("§cEffect " + args[args.length == 2 ? 0 : 1].toLowerCase() + " couldn't be found!");
             return false;
@@ -106,7 +107,7 @@ public class EffectCommand extends Command {
         }
 
         skyBlockPlayer.getEffects().add(effect, duration, amplifier);
-        sender.sendMessage("§aAdded effect " + effect.getDisplayName() + "§r§a to " + target.getName() + "§r§a for §6" + duration + "§r§a seconds with amplifier §6" + amplifier + "§r§a.");
+        sender.sendMessage("§aAdded effect " + effect.getColorCode() + effect.getDisplayName() + "§r§a to " + target.getName() + "§r§a for §6" + duration + "§r§a seconds with amplifier §6" + amplifier + "§r§a.");
         return true;
     }
 

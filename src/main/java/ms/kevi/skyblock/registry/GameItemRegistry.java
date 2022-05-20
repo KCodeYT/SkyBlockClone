@@ -17,6 +17,7 @@
 package ms.kevi.skyblock.registry;
 
 import cn.nukkit.item.Item;
+import ms.kevi.skyblock.game.effect.PotionType;
 import ms.kevi.skyblock.item.IGameItem;
 import ms.kevi.skyblock.item.custom.*;
 import ms.kevi.skyblock.item.custom.accessory.EyeOfTheGolemItem;
@@ -40,9 +41,9 @@ import ms.kevi.skyblock.item.custom.material.EnchantedCobblestoneItem;
 import ms.kevi.skyblock.item.custom.material.EnchantedPorkItem;
 import ms.kevi.skyblock.item.custom.minion.MinionItem;
 import ms.kevi.skyblock.item.custom.minion.upgrade.CompactorItem;
-import ms.kevi.skyblock.item.custom.orb.ManaFluxPowerOrbItem;
-import ms.kevi.skyblock.item.custom.orb.OverfluxPowerOrbItem;
-import ms.kevi.skyblock.item.custom.orb.RadiantPowerOrbItem;
+import ms.kevi.skyblock.item.custom.orb.PowerOrbItem;
+import ms.kevi.skyblock.item.custom.potion.BasicPotionItem;
+import ms.kevi.skyblock.item.custom.potion.PotionItem;
 import ms.kevi.skyblock.item.custom.reforge.DragonHornItem;
 import ms.kevi.skyblock.item.custom.titan.TitanBootsItem;
 import ms.kevi.skyblock.item.custom.titan.TitanChestplateItem;
@@ -82,9 +83,9 @@ public class GameItemRegistry extends Registry<IGameItem> {
     public static final IGameItem CRACKED_PIGGY_BANK = new CrackedPiggyBankItem();
     public static final IGameItem BROKEN_PIGGY_BANK = new BrokenPiggyBank();
     public static final IGameItem RECOMBOBULATOR_3000 = new Recombobulator3000Item();
-    public static final IGameItem RADIANT_POWER_ORB = new RadiantPowerOrbItem();
-    public static final IGameItem MANA_FLUX_POWER_ORB = new ManaFluxPowerOrbItem();
-    public static final IGameItem OVERFLUX_POWER_ORB = new OverfluxPowerOrbItem();
+    public static final IGameItem RADIANT_POWER_ORB = new PowerOrbItem(Registries.ORBS.RADIANT);
+    public static final IGameItem MANA_FLUX_POWER_ORB = new PowerOrbItem(Registries.ORBS.MANA_FLUX);
+    public static final IGameItem OVERFLUX_POWER_ORB = new PowerOrbItem(Registries.ORBS.OVERFLUX);
     public static final IGameItem ASPECT_OF_THE_DRAGONS = AspectOfTheDragonsItem.INSTANCE;
     public static final IGameItem ASPECT_OF_THE_END = new AspectOfTheEndItem();
     public static final IGameItem BONZO_STAFF = new BonzoStaffItem();
@@ -118,6 +119,8 @@ public class GameItemRegistry extends Registry<IGameItem> {
     public static final IGameItem TANK_WITHER_LEGGINGS = new TankWitherLeggings();
     public static final IGameItem TANK_WITHER_BOOTS = new TankWitherBoots();
     public static final IGameItem COMPACTOR = new CompactorItem();
+    public static final IGameItem STRENGTH = new BasicPotionItem(PotionType.STRENGTH, Registries.EFFECTS.STRENGTH);
+    public static final IGameItem SPEED = new BasicPotionItem(PotionType.SPEED, Registries.EFFECTS.SPEED);
 
     private static final List<Class<? extends Registry<IGameItem>>> SUB_REGISTRIES = Collections.singletonList(VanillaItemRegistry.class);
 

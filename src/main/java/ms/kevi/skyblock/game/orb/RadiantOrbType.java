@@ -17,12 +17,15 @@
 package ms.kevi.skyblock.game.orb;
 
 import cn.nukkit.Player;
+import cn.nukkit.item.ItemID;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.level.particle.GenericParticle;
 import cn.nukkit.level.particle.Particle;
 import cn.nukkit.math.Vector3;
+import cn.nukkit.utils.DyeColor;
 import lombok.Getter;
+import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.game.booster.StatsBooster;
 import ms.kevi.skyblock.game.stats.GameStats;
 
@@ -49,6 +52,9 @@ public class RadiantOrbType implements IOrbType {
             return new String[]{"§7Heals §c1% §7of max §cHealth §7per second."};
         }
     };
+    private final GameRarity rarity = GameRarity.RARE;
+    private final int itemId = ItemID.DYE;
+    private final int itemDamage = DyeColor.LIGHT_BLUE.getDyeData();
 
     @Override
     public void addPlayerParticles(Random random, Player player) {

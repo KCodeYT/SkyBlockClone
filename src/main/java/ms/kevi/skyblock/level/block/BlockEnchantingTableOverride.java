@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-package ms.kevi.skyblock.item.custom.orb;
+package ms.kevi.skyblock.level.block;
 
+import cn.nukkit.Player;
+import cn.nukkit.block.Block;
 import cn.nukkit.item.Item;
-import cn.nukkit.utils.DyeColor;
-import ms.kevi.skyblock.game.GameRarity;
-import ms.kevi.skyblock.registry.OrbTypeRegistry;
+import cn.nukkit.math.BlockFace;
+import ms.kevi.skyblock.menu.EnchantingTableMenu;
 
-public class ManaFluxPowerOrbItem extends AbstractPowerOrbItem {
+public class BlockEnchantingTableOverride extends cn.nukkit.block.BlockEnchantingTable {
 
-    public ManaFluxPowerOrbItem() {
-        super(OrbTypeRegistry.MANA_FLUX);
+    @Override
+    public boolean place(Item item, Block block, Block target, BlockFace face, double fx, double fy, double fz, Player player) {
+        return this.getLevel().setBlock(block, this, true, true);
     }
 
     @Override
-    public GameRarity getRarity() {
-        return GameRarity.RARE;
-    }
-
-    @Override
-    public int getId() {
-        return Item.DYE;
-    }
-
-    @Override
-    public int getDamage() {
-        return DyeColor.LIGHT_BLUE.getDyeData();
+    public boolean onActivate(Item item, Player player) {
+        new EnchantingTableMenu(player);
+        return true;
     }
 
 }

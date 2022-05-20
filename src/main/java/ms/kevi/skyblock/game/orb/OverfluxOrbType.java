@@ -17,12 +17,14 @@
 package ms.kevi.skyblock.game.orb;
 
 import cn.nukkit.Player;
+import cn.nukkit.item.ItemID;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.level.particle.GenericParticle;
 import cn.nukkit.level.particle.Particle;
 import cn.nukkit.math.Vector3;
 import lombok.Getter;
+import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.game.booster.StatsBooster;
 import ms.kevi.skyblock.game.stats.GameStats;
 
@@ -38,6 +40,9 @@ public class OverfluxOrbType implements IOrbType {
     private final long time = TimeUnit.SECONDS.toMillis(60);
     private final int maxPlayers = 5;
     private final int playerRadius = 18;
+    private final GameRarity rarity = GameRarity.EPIC;
+    private final int itemId = ItemID.REDSTONE_DUST;
+    private final int itemDamage = 0;
     private final IOrbBuff orbBuff = new IOrbBuff() {
         @Override
         public StatsBooster getStatsBooster() {

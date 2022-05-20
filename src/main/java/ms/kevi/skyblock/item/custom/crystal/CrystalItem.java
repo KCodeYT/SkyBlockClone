@@ -25,7 +25,7 @@ import ms.kevi.skyblock.entity.crystal.EntityCrystal;
 import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.game.crystal.ICrystalType;
 import ms.kevi.skyblock.item.ItemBuilder;
-import ms.kevi.skyblock.item.ItemHandler;
+import ms.kevi.skyblock.item.handler.ItemInteractHandler;
 import ms.kevi.skyblock.item.ItemHelper;
 import ms.kevi.skyblock.item.registry.AbstractGameItem;
 import ms.kevi.skyblock.registry.Registries;
@@ -34,7 +34,7 @@ import ms.kevi.skyblock.util.FunctionInvoker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrystalItem extends AbstractGameItem implements ItemHandler {
+public class CrystalItem extends AbstractGameItem implements ItemInteractHandler {
 
     @Override
     public Item createItem(Object... args) {

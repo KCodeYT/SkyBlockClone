@@ -28,7 +28,7 @@ import ms.kevi.skyblock.entity.minion.EntityMinion;
 import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.game.minion.IMinionType;
 import ms.kevi.skyblock.item.ItemBuilder;
-import ms.kevi.skyblock.item.ItemHandler;
+import ms.kevi.skyblock.item.handler.ItemInteractHandler;
 import ms.kevi.skyblock.item.ItemHelper;
 import ms.kevi.skyblock.item.registry.AbstractGameItem;
 import ms.kevi.skyblock.registry.Registries;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class MinionItem extends AbstractGameItem implements ItemHandler {
+public class MinionItem extends AbstractGameItem implements ItemInteractHandler {
 
     @Override
     public Item createItem(Object... args) {

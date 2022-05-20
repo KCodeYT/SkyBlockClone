@@ -44,9 +44,7 @@ public class WardenHelmetItem extends AbstractGameItem {
             final SkyBlockPlayer player = event.getPlayer();
             final Attribute speedAttribute = player.getGameAttributes().get(GameStats.SPEED);
             final Attribute damageAttribute = player.getGameAttributes().get(GameStats.DAMAGE);
-            final int speedVal = speedAttribute.getMaxValue();
-            speedAttribute.setForcedMaxValue(speedVal / 2);
-            for(int s = 25; speedVal - s > 0; s += 25)
+            for(int s = 25; speedAttribute.getMaxValue() - s > 0; s += 25)
                 damageAttribute.setValue(damageAttribute.getValue() + 20);
         };
 
@@ -78,6 +76,12 @@ public class WardenHelmetItem extends AbstractGameItem {
         @Override
         public void onDeactivate(Player player) {
             GameHolder.getPlayer(player).getEventManager().remove(this.listener);
+        }
+
+        @Override
+        public StatsBooster getStatsBooster() {
+            return StatsBooster.create().
+                    putPercent(GameStats.SPEED, -50);
         }
     };
 

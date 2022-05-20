@@ -34,14 +34,14 @@ import ms.kevi.skyblock.game.server.ServerSize;
 import ms.kevi.skyblock.game.server.ServerType;
 import ms.kevi.skyblock.level.LevelUtil;
 import ms.kevi.skyblock.level.VoidGenerator;
-import ms.kevi.skyblock.level.block.BlockAnvil;
-import ms.kevi.skyblock.level.block.BlockEnchantingTable;
-import ms.kevi.skyblock.level.block.BlockFarmlandOverride;
-import ms.kevi.skyblock.level.block.BlockOverride;
 import ms.kevi.skyblock.listener.DamageListener;
 import ms.kevi.skyblock.listener.ItemHandlerListener;
 import ms.kevi.skyblock.listener.PlayerListener;
 import ms.kevi.skyblock.listener.SkullListener;
+import ms.kevi.skyblock.level.block.BlockAnvilOverride;
+import ms.kevi.skyblock.level.block.BlockEnchantingTableOverride;
+import ms.kevi.skyblock.level.block.BlockFarmlandOverride;
+import ms.kevi.skyblock.level.block.BlockOverride;
 import ms.kevi.skyblock.scheduler.TaskExecutor;
 import ms.kevi.skyblock.util.CommandUtil;
 import ms.kevi.skyblock.util.DefaultUtils;
@@ -65,7 +65,6 @@ public class SkyBlockPlugin extends PluginBase {
 
         try {
             Class.forName("ms.kevi.skyblock.registry.Registries");
-            Class.forName("ms.kevi.skyblock.registry.ItemRegistryInit");
         } catch(Throwable e) {
             e.printStackTrace();
             this.getPluginLoader().disablePlugin(this);
@@ -119,12 +118,13 @@ public class SkyBlockPlugin extends PluginBase {
         CommandUtil.register(new EnchantCommand());
         CommandUtil.register(new ViewRecipeCommand());
         CommandUtil.register(new EffectCommand());
+        CommandUtil.register(new GivePotionCommand());
         TaskExecutor.repeating(() -> Timings.addEntityCount(this.getServer().getDefaultLevel().getEntities().length), 10);
         TaskExecutor.repeating(() -> this.getServer().getLevels().values().forEach(level -> level.setTime(GameCalender.getCurrentLevelTime(level))), 166);
 
         BlockOverride.register(new BlockFarmlandOverride());
-        BlockOverride.register(new BlockEnchantingTable());
-        BlockOverride.register(new BlockAnvil());
+        BlockOverride.register(new BlockEnchantingTableOverride());
+        BlockOverride.register(new BlockAnvilOverride());
         DefaultUtils.init(this);
     }
 

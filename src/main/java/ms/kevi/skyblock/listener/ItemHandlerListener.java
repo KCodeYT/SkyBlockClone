@@ -26,9 +26,9 @@ import cn.nukkit.item.Item;
 import ms.kevi.skyblock.game.GameHolder;
 import ms.kevi.skyblock.game.player.SkyBlockPlayer;
 import ms.kevi.skyblock.item.IGameItem;
-import ms.kevi.skyblock.item.ItemHandler;
 import ms.kevi.skyblock.item.ItemHelper;
 import ms.kevi.skyblock.item.ItemValidation;
+import ms.kevi.skyblock.item.handler.ItemInteractHandler;
 import ms.kevi.skyblock.menu.crafting.ViewRecipeMenu;
 import ms.kevi.skyblock.registry.Registries;
 
@@ -67,9 +67,9 @@ public class ItemHandlerListener implements Listener {
         }
         this.spamFilter.put(player, timeMillis);
 
-        if(gameItem instanceof ItemHandler) {
+        if(gameItem instanceof ItemInteractHandler) {
             event.setCancelled(true);
-            ((ItemHandler) gameItem).handle(event);
+            ((ItemInteractHandler) gameItem).handle(event);
         }
 
         if(gameItem.getRecipes() != null) {

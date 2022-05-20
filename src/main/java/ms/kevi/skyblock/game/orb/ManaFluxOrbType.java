@@ -17,12 +17,15 @@
 package ms.kevi.skyblock.game.orb;
 
 import cn.nukkit.Player;
+import cn.nukkit.item.ItemID;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.level.particle.GenericParticle;
 import cn.nukkit.level.particle.Particle;
 import cn.nukkit.math.Vector3;
+import cn.nukkit.utils.DyeColor;
 import lombok.Getter;
+import ms.kevi.skyblock.game.GameRarity;
 import ms.kevi.skyblock.game.booster.StatsBooster;
 import ms.kevi.skyblock.game.stats.GameStats;
 
@@ -38,6 +41,9 @@ public class ManaFluxOrbType implements IOrbType {
     private final long time = TimeUnit.SECONDS.toMillis(30);
     private final int maxPlayers = 5;
     private final int playerRadius = 18;
+    private final GameRarity rarity = GameRarity.UNCOMMON;
+    private final int itemId = ItemID.DYE;
+    private final int itemDamage = DyeColor.LIME.getDyeData();
     private final IOrbBuff orbBuff = new IOrbBuff() {
         @Override
         public StatsBooster getStatsBooster() {

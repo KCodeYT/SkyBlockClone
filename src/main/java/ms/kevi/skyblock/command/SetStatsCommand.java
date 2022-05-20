@@ -80,7 +80,7 @@ public class SetStatsCommand extends Command {
         }
 
         skyBlockPlayer.getGameAttributes().get(gameStats).setValue(value, true);
-        sender.sendMessage("§aSet stats §6" + gameStats.getDisplayName() + "§r§a of SkyBlock player to §6" + value + "§a!");
+        sender.sendMessage("§aSet stats " + gameStats.toString(true, false) + "§r§a of SkyBlock player to §6" + value + "§a!");
         return true;
     }
 

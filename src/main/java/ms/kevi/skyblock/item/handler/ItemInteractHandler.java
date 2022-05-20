@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package ms.kevi.skyblock.level.block;
+package ms.kevi.skyblock.item.handler;
 
-import cn.nukkit.Player;
-import cn.nukkit.item.Item;
-import ms.kevi.skyblock.menu.reforge.AdvancedReforgeMenu;
+import cn.nukkit.event.player.PlayerInteractEvent;
 
-public class BlockAnvil extends cn.nukkit.block.BlockAnvil {
+public interface ItemInteractHandler {
 
-    @Override
-    public boolean onActivate(Item item, Player player) {
-        new AdvancedReforgeMenu(player);
-        return true;
-    }
+    void handle(PlayerInteractEvent event);
 
 }

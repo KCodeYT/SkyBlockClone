@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package ms.kevi.skyblock.item;
+package ms.kevi.skyblock.game.effect;
 
-import cn.nukkit.event.player.PlayerInteractEvent;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-public interface ItemHandler {
+@Getter
+@RequiredArgsConstructor
+public enum PotionType {
 
-    void handle(PlayerInteractEvent event);
+    STRENGTH("Strength", PotionColor.STRENGTH),
+    SPEED("Speed", PotionColor.SPEED);
+
+    private final String displayName;
+    private final PotionColor color;
 
 }

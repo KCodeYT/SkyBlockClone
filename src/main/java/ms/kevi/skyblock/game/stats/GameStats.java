@@ -55,6 +55,10 @@ public enum GameStats {
         return MapUtil.sortByValue(gameStatsMap).keySet().toArray(new GameStats[0]);
     }
 
+    public String toString(boolean color, boolean suffix) {
+        return color && suffix ? this.colorCode + this.displayName + this.suffix : (color ? this.colorCode : "") + this.displayName + (suffix ? this.suffix : "");
+    }
+
     @Getter
     @AllArgsConstructor
     public enum StatsType {
